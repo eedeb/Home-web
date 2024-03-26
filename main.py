@@ -7,7 +7,7 @@ file_location='/home/'+os.popen('w').read().split('\n')[2].split(' ')[0]
 print(file_location)
 ip=os.popen('hostname -I')
 ip_address=ip.read()
-if '.' in ip_address=ip_address.split(' ')[1]:
+if '.' in ip_address.split(' ')[1]:
     ip_address=ip_address.split(' ')[1]
 else:
     ip_address=ip_address.split(' ')[0]
