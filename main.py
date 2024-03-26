@@ -4,7 +4,10 @@ import re
 import requests
 import os
 file_location="/home/elliot"
-
+ip=os.popen('hostname -I')
+ip_address=ip.read()
+ip_address=ip_address.split(' ')[0]
+print(ip_address)
 
 app = Flask(__name__)
 
@@ -129,4 +132,5 @@ def cmd_bottom():
     return returnvar
 
 if __name__ == '__main__':
-    app.run(debug=False,host='10.0.0.165',port=80)
+    app.run(debug=False,host=ip_address,port=80)
+
