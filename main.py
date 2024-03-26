@@ -126,7 +126,7 @@ def cmd_bottom():
     else:
         announcements.announce.append(input_text)
         returnvar="added"
-    file1 = open(file_location+"/web-thing/announcements.py", "w")
+    file1 = open(file_location+"/Home-web/announcements.py", "w")
     file1.write("announce="+str(announcements.announce))
     file1.close()
     return returnvar
