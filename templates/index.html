@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home Server</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 18px; /* Adjusted font size for better readability */
+        }
+        #time {
+            font-size: 36px; /* Adjusted font size for the time */
+            margin-bottom: 20px;
+        }
+        .sections-container {
+            display: flex;
+            flex-direction: column; /* Display sections vertically */
+            align-items: center; /* Center sections horizontally */
+            width: 90%;
+        }
+        .section {
+            text-align: center;
+            width: 90%; /* Set section width to 90% of the viewport width */
+            background-color: rgba(56,182,255);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .announcements {
+            background-color: rgba(199,73,0);
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 24px; /* Adjusted font size for announcements */
+            width: 90%;
+        }
+        input[type="text"], input[type="submit"] {
+            font-size: 18px; /* Adjusted font size for input elements */
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="time"></div>
+
+    <div class="sections-container">
+        <div class="section">
+            <h1>Google Search</h1>
+            <form id="form1" action="/process_section1" method="post">
+                <input type="text" id="input1" name="input_text" style="width: 80%;">
+                <br>
+                <input type="submit" value="Submit">
+            </form>
+            <div id="output_section1"></div>
+        </div>
+
+        <div class="section">
+            <h1>Announcements</h1>
+            <form id="form2" action="/process_section2" method="post">
+                <input type="text" id="input2" name="input_text" style="width: 80%;">
+                <br>
+                <input type="submit" value="Submit">
+            </form>
+            <div id="output_section2"></div>
+        </div>
+    </div>
+
+    <div class="announcements" id="announcements">
+        <h2>Announcements:</h2>
+        {% for announcement in announcements %}
+            <div>{{ announcement }}</div>
+        {% endfor %}
+    </div>
+
+    <script>
+        function updateTime() {
+            var now = new Date();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            // Ensure minutes are displayed with leading zero if less than 10
+            minutes = (minutes < 10 ? '0' : '') + minutes;
+            document.getElementById('time').innerHTML = hours + ":" + minutes;
+        }
+        
+        function fetchAnnouncements() {
+            fetch('/fetch_announcements')
+            .then(response => response.json())
+            .then(data => {
+                // Clear previous announcements
+                var announcementsDiv = document.getElementById('announcements');
+                announcementsDiv.innerHTML = '<h2>Announcements:</h2>';
+                
+                // Add new announcements
+                data.forEach(announcement => {
+                    var div = document.createElement('div');
+                    div.textContent = announcement;
+                    announcementsDiv.appendChild(div);
+                });
+            });
+        }
+
+        updateTime(); // Initial call to display time
+        setInterval(updateTime, 1000); // Update time every second
+        fetchAnnouncements(); // Fetch announcements when page loads
+        setInterval(fetchAnnouncements, 5000); // Fetch announcements every 5 seconds
+
+        document.getElementById('form1').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var formData = new FormData(this);
+            fetch('/process_section1', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                // Check if data contains a URL
+                var urlPattern = /(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?/gi;
+                if (urlPattern.test(data)) {
+                    // Create anchor element
+                    var link = document.createElement('a');
+                    link.href = data;
+                    link.textContent = data;
+                    link.target = '_blank'; // Open link in new tab
+                    // Clear previous content
+                    document.getElementById('output_section1').innerHTML = '';
+                    // Append link to output
+                    document.getElementById('output_section1').appendChild(link);
+                } else {
+                    // If no URL found, display data as is
+                    document.getElementById('output_section1').innerText = data;
+                }
+            });
+        });
+
+        document.getElementById('form2').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var formData = new FormData(this);
+            fetch('/process_section2', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('output_section2').innerText = data;
+            });
+        });
+    </script>
+</body>
+</html>
