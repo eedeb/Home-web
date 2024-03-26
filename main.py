@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import re
 import requests
 import os
-file_location='/home/'+os.popen('whoami').read()
+file_location='/home/'+os.popen('w').read().split('\n')[2].split(' ')[0]
 print(file_location)
 ip=os.popen('hostname -I')
 ip_address=ip.read()
@@ -134,5 +134,6 @@ def cmd_bottom():
 
 if __name__ == '__main__':
     app.run(debug=False,host=ip_address,port=80)
+
 
 
