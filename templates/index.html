@@ -71,6 +71,9 @@
             <div>{{ announcement }}</div>
         {% endfor %}
     </div>
+    <br>
+    <br>
+    <button id="rebootButton">Reboot Machine</button>
 
     <script>
         function updateTime() {
@@ -144,6 +147,21 @@
                 document.getElementById('output_section2').innerText = data;
             });
         });
+        document.getElementById('rebootButton').addEventListener('click', function() {
+            fetch('/reboot')
+                .then(response => {
+                    if (response.ok) {
+                        alert('Machine reboot initiated.');
+                    } else {
+                        alert('Failed to initiate machine reboot.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to initiate machine reboot.');
+                });
+        });
     </script>
 </body>
 </html>
+
