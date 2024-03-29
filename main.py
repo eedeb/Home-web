@@ -136,8 +136,16 @@ def cmd_bottom():
     file1.close()
     return returnvar
 
+
+@app.route('/reboot')
+def reboot_machine():
+    os.system('sudo reboot')  # Adjust command if necessary
+    return '', 204
+
+
 if __name__ == '__main__':
     app.run(debug=False,host=ip_address,port=80)
+
 
 
 
