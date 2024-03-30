@@ -121,7 +121,7 @@ def fetch_announcements():
 @app.route('/process_section2', methods=['POST'])
 def cmd_bottom():
     input_text = request.form['input_text']
-    os.system('sudo -u elliot espeak -ven-us "'+input_text+'"')
+    os.system('sudo -u mrpi314 espeak -ven-us "'+input_text+'"')
     print(input_text)
     # Process input_text for section 2
     if input_text.lower() == 'clear':
