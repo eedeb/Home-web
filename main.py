@@ -136,6 +136,7 @@ def cmd_bottom():
     else:
         announcements.announce.append(input_text)
         returnvar="added"
+        os.system('espeak -ven-us '+input_text)
     file1 = open(file_location+"/Home-web/announcements.py", "w")
     file1.write("announce="+str(announcements.announce))
     file1.close()
