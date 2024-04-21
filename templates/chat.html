@@ -1,7 +1,5 @@
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -82,7 +80,39 @@
             border-radius: 8px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
         }
+
+        @media screen and (max-width: 600px) {
+            .CustomChat-images {
+                justify-content: center;
+            }
+
+            .CustomChat-images img:first-child,
+            .CustomChat-images img:last-child {
+            display: none;
+            }
+        }
+
     </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to CustomChat</h1>
+    </header>
+    <main>
+        <div class="CustomChat-images">
+            <img src="https://cdn-icons-png.freepik.com/512/6471/6471995.png" alt="">
+            <img src="https://th.bing.com/th/id/OIG2.q0gJZl_27tmIQR0NmLPC?w=1024&h=1024&rs=1&pid=ImgDetMain" alt="">
+            <img src="https://raw.githubusercontent.com/Mrpi314tech/Mrpi314tech.github.io/main/python.png" alt="">
+        </div>
+        <form id="chat-form">
+            <input type="text" name="user_input" placeholder="Talk to CustomChat">
+            <input type="submit" value="Send">
+        </form>
+        <div id="responses">
+            <!-- Responses will appear here -->
+        </div>
+    </main>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
@@ -105,26 +135,6 @@
             });
         });
     </script>
-</head>
-
-<body>
-    <header>
-        <h1>Welcome to CustomChat</h1>
-    </header>
-    <main>
-        <div class="CustomChat-images">
-            <img src="https://cdn-icons-png.freepik.com/512/6471/6471995.png" alt="">
-            <img src="https://th.bing.com/th/id/OIG2.q0gJZl_27tmIQR0NmLPC?w=1024&h=1024&rs=1&pid=ImgDetMain" alt="">
-            <img src="https://raw.githubusercontent.com/Mrpi314tech/Mrpi314tech.github.io/main/python.png" alt="">
-        </div>
-        <form>
-            <input type="text" name="user_input" placeholder="Talk to CustomChat">
-            <input type="submit" value="Send">
-        </form>
-        <div id="responses">
-            <!-- Responses will appear here -->
-        </div>
-    </main>
 </body>
-
 </html>
+
