@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -99,8 +97,8 @@
                     url: '/get_response',
                     data: formData,
                     success: function (data) {
-                        $('#responses').prepend('<p>' + data.response_2 + '</p>');
-                        $('#responses').prepend('<p>' + data.response_1 + '</p>');
+                        $('#responses').prepend('<p>' + makeLinksClickable(data.response_1) + '</p>');
+                        $('#responses').prepend('<p>' + makeLinksClickable(data.response_2) + '</p>');
                         $('input[name="user_input"]').val('');
                     },
                     error: function (xhr, status, error) {
@@ -108,6 +106,15 @@
                     }
                 });
             });
+
+            function makeLinksClickable(text) {
+                // Regex to identify URLs in the text
+                var urlRegex = /(https?:\/\/[^\s]+)/g;
+                // Replace URLs with clickable links
+                return text.replace(urlRegex, function (url) {
+                    return '<a href="' + url + '" target="_blank">' + url + '</a>';
+                });
+            }
         });
     </script>
 </head>
@@ -115,7 +122,6 @@
 <body>
     <header>
         <h1>Welcome to CustomChat</h1>
-
     </header>
     <main>
         <div class="CustomChat-images">
