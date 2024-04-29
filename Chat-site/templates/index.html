@@ -97,8 +97,8 @@
                     url: '/get_response',
                     data: formData,
                     success: function (data) {
-                        $('#responses').prepend('<p>' + makeLinksClickable(data.response_1) + '</p>');
                         $('#responses').prepend('<p>' + makeLinksClickable(data.response_2) + '</p>');
+                        $('#responses').prepend('<p>' + makeLinksClickable(data.response_1) + '</p>');
                         $('input[name="user_input"]').val('');
                     },
                     error: function (xhr, status, error) {
