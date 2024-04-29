@@ -85,6 +85,15 @@
             border-radius: 8px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
         }
+        @media screen and (max-width: 600px) {
+            .CustomChat-images {
+                justify-content: center;
+            }
+
+            .CustomChat-images img:first-child,
+            .CustomChat-images img:last-child {
+                display: none;
+            }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
