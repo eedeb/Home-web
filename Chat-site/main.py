@@ -10,7 +10,7 @@ def index():
 @app.route('/get_response', methods=['POST'])
 def get_response():
     user_input = request.form['user_input']
-    user_ip = request.remote_addr  # Get the user's IP address
+    user_ip = request.form.get('mac_address') #request.remote_addr
     if user_input == 'reset':
         CustomChat.reset(user_ip)
         return jsonify({'response_1': 'reset', 'response_2': ''})
