@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PiBot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        header {
+            background-color: #38b6ff;
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+        }
+
+        footer {
+            padding: 20px;
+            text-align: center;
+            background-color: #fff;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 70%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #38b6ff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #responses {
+            margin-top: 20px;
+        }
+
+        #responses p {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .PiBot-images {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .PiBot-images img {
+            width: 200px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        @media screen and (max-width: 600px) {
+            .PiBot-images {
+                justify-content: center;
+            }
+
+            .PiBot-images img:first-child,
+            .PiBot-images img:last-child {
+                display: none;
+            }
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Show the API key form on page load
+            $('#api-key-form').show();
+
+            // Handle API key submission
+            $('#api-key-form').submit(function (event) {
+                event.preventDefault();
+                var apiKey = $('input[name="api_key"]').val();
+                $.ajax({
+                    type: 'POST',
+                    url: '/set_api_key',
+                    data: { api_key: apiKey },
+                    success: function (data) {
+                        if (data.status === 'success') {
+                            $('#api-key-form').hide();
+                            $('#chat-form').show();
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+
+            // Handle chat form submission
+            $('#chat-form').submit(function (event) {
+                event.preventDefault();
+                var formData = $(this).serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: '/get_response',
+                    data: formData,
+                    success: function (data) {
+                        $('#responses').prepend('<p>' + makeLinksClickable(data.response_2) + '</p>');
+                        $('#responses').prepend('<p>' + makeLinksClickable(data.response_1) + '</p>');
+                        $('input[name="user_input"]').val('');
+                        replaceCenterImageIfNeeded(data.response_1);
+                        replaceCenterImageIfNeeded(data.response_2);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+
+            function makeLinksClickable(text) {
+                var urlRegex = /(https?:\/\/[^\s]+)/g;
+                return text.replace(urlRegex, function (url) {
+                    return '<a href="' + url + '" target="_blank">' + url + '</a>';
+                });
+            }
+
+            function replaceCenterImageIfNeeded(text) {
+                var urlRegex = /(https?:\/\/oaidalleapiprodscus\.blob\.core\.windows\.net[^\s]+)/g;
+                var match = text.match(urlRegex);
+                if (match && match[0]) {
+                    $('.PiBot-images img:nth-child(2)').attr('src', match[0]);
+                }
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>Welcome to PiBot</h1>
+    </header>
+    <main>
+        <div class="PiBot-images">
+            <img src="https://cdn-icons-png.freepik.com/512/6471/6471995.png" alt="">
+            <img src="https://raw.githubusercontent.com/Mrpi314tech/Mrpi314tech.github.io/main/customchat.jpeg" alt="">
+            <img src="https://raw.githubusercontent.com/Mrpi314tech/Mrpi314tech.github.io/main/python.png" alt="">
+        </div>
+        <form id="api-key-form">
+            <input type="password" name="api_key" placeholder="Optional: Enter your OpenAI API key here.">
+            <input type="submit" value="Submit">
+        </form>
+        <form id="chat-form" style="display: none;">
+            <input type="text" name="user_input" placeholder="Talk to PiBot">
+            <input type="submit" value="Send">
+        </form>
+        <div id="responses">
+            <!-- Responses will appear here -->
+        </div>
+    </main>
+    <footer>
+        <a href='http://chat.mrpi314.com/info'>More information</a>
+    </footer>
+</body>
+
+</html>
