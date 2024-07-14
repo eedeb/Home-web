@@ -7,24 +7,40 @@
     <title>PiBot</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            height: 100%;
             margin: 0;
             padding: 0;
-            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            background-color: rgba(0, 0, 0, 0.9);
             color: #333;
+            position: relative;
         }
-
+        
+        html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: #333;
+            position: relative;
+        }
+        
         header {
-            background-color: #38b6ff;
+            background-color: rgba(0,0,0);
             padding: 20px;
             text-align: center;
-            color: #fff;
+            color: rgba(52,182,255);
         }
 
         footer {
-            padding: 20px;
+            padding: 2%;
             text-align: center;
-            background-color: #fff;
+            background-color: rgba(0, 0, 0);
+            border: 1px solid rgba(52,182,255);
+            position: fixed;
+            width: 30%;
+            left: 33%;
+            bottom: 0;
         }
 
         h1 {
@@ -36,7 +52,7 @@
             max-width: 800px;
             margin: 20px auto;
             padding: 20px;
-            background-color: #fff;
+            background-color: rgba(0,0,0);
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -50,17 +66,19 @@
             width: 70%;
             padding: 10px;
             font-size: 16px;
-            border: 1px solid #ccc;
+            color: rgba(52,182,255);
+            border: 1px solid rgba(52,182,255);
             border-radius: 5px;
             margin-bottom: 10px;
+            background-color: rgba(0, 0, 0);
         }
 
         input[type="submit"] {
             padding: 10px 20px;
             font-size: 16px;
-            background-color: #38b6ff;
-            color: #fff;
-            border: none;
+            background-color: rgba(0,0,0);
+            color: rgba(52,182,355);
+            border: 1px solid rgba(52,182,355);
             border-radius: 5px;
             cursor: pointer;
         }
@@ -72,7 +90,8 @@
         #responses p {
             margin: 10px 0;
             padding: 10px;
-            background-color: #f9f9f9;
+            background-color: rgba(0,0,0,0);
+            color: rgba(52,182,355);
             border-radius: 5px;
         }
 
@@ -87,6 +106,7 @@
             height: auto;
             border-radius: 8px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(52,182,355);
         }
 
         @media screen and (max-width: 600px) {
@@ -135,11 +155,15 @@
                     url: '/get_response',
                     data: formData,
                     success: function (data) {
-                        $('#responses').prepend('<p>' + makeLinksClickable(data.response_2) + '</p>');
-                        $('#responses').prepend('<p>' + makeLinksClickable(data.response_1) + '</p>');
+                        if (data.response_2) {
+                            $('#responses').prepend('<p>' + makeLinksClickable(data.response_2) + '</p>');
+                            replaceCenterImageIfNeeded(data.response_2);
+                        }
+                        if (data.response_1) {
+                            $('#responses').prepend('<p>' + makeLinksClickable(data.response_1) + '</p>');
+                            replaceCenterImageIfNeeded(data.response_1);
+                        }
                         $('input[name="user_input"]').val('');
-                        replaceCenterImageIfNeeded(data.response_1);
-                        replaceCenterImageIfNeeded(data.response_2);
                     },
                     error: function (xhr, status, error) {
                         console.error(error);
@@ -188,7 +212,7 @@
         </div>
     </main>
     <footer>
-        <a href='http://chat.mrpi314.com/info'>More information</a>
+        <a style="color: rgba(52,182,355);" href='http://chat.mrpi314.com/info'>More information</a>
     </footer>
 </body>
 
