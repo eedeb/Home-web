@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PiBot</title>
+    <link rel="icon" href="https://raw.githubusercontent.com/Mrpi314tech/Home-web/main/favicon.ico">
     <style>
         body {
             height: 100%;
@@ -27,29 +28,32 @@
         
         header {
             background-color: rgba(0,0,0);
-            padding: 20px;
             text-align: center;
             color: rgba(52,182,255);
+            position: fixed;
+            width: 100%;
+            justify-content: center;
+            display: flex;
         }
-
         footer {
+            top: 85%;
             padding: 2%;
             text-align: center;
             background-color: rgba(0, 0, 0);
             border: 1px solid rgba(52,182,255);
             position: fixed;
-            width: 30%;
-            left: 33%;
-            bottom: 0;
+            width: 100%;
+            left: 13%;
+            width:70%;
         }
 
         h1 {
             margin: 0;
             font-size: 2.5em;
         }
-
         main {
-            max-width: 800px;
+            min-height: 45%;
+            max-width: 70%;
             margin: 20px auto;
             padding: 20px;
             background-color: rgba(0,0,0);
@@ -71,6 +75,7 @@
             border-radius: 5px;
             margin-bottom: 10px;
             background-color: rgba(0, 0, 0);
+            text-align: center;
         }
 
         input[type="submit"] {
@@ -85,6 +90,7 @@
 
         #responses {
             margin-top: 20px;
+            text-align: center;
         }
 
         #responses p {
@@ -95,36 +101,75 @@
             border-radius: 5px;
         }
 
-        .PiBot-images {
+        .PiBot-images, .lightning {
             display: flex;
             justify-content: space-around;
             margin-top: 20px;
         }
-
+        .spacer {
+            background-color: rgba(255,0,0,0);
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+        }
         .PiBot-images img {
-            width: 200px;
+            width: 100px;
             height: auto;
             border-radius: 8px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(52,182,355);
+        }
+        .lightning img {
+            width: 500px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            border: 0px solid rgba(52,182,355);
         }
 
         @media screen and (max-width: 600px) {
             .PiBot-images {
                 justify-content: center;
             }
-
-            .PiBot-images img:first-child,
-            .PiBot-images img:last-child {
-                display: none;
+            footer {
+                width: 100%;
+                padding: 2%;
+                text-align: center;
+                background-color: rgba(0, 0, 0);
+                border: 1px solid rgba(52,182,255);
+                position: fixed;
+                left: 0%;
+                top: 82%;
             }
+            main {
+                max-width: 80%;
+                margin: 20px auto;
+                padding: 20px;
+                background-color: rgba(0,0,0);
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            input[type="text"], input[type="password"] {
+                width: 85%;
+                text-align: center;
+            }
+
         }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
-            // Show the API key form on page load
-            $('#api-key-form').show();
+
+            // Handle API key submission
+            var apiKeyCookie = getCookie('key');
+            if (apiKeyCookie) {
+                // If cookie is set, hide the API key form and show the chat form
+                $('#api-key-form').hide();
+                $('#chat-form').show();
+            } else {
+                // Otherwise, show the API key form
+                $('#api-key-form').show();
+            }
 
             // Handle API key submission
             $('#api-key-form').submit(function (event) {
@@ -182,8 +227,13 @@
                 var urlRegex = /(https?:\/\/oaidalleapiprodscus\.blob\.core\.windows\.net[^\s]+)/g;
                 var match = text.match(urlRegex);
                 if (match && match[0]) {
-                    $('.PiBot-images img:nth-child(2)').attr('src', match[0]);
+                    $('.PiBot-images img:nth-child(1)').attr('src', match[0]);
                 }
+            }
+            function getCookie(name) {
+                var value = "; " + document.cookie;
+                var parts = value.split("; " + name + "=");
+                if (parts.length === 2) return parts.pop().split(";").shift();
             }
         });
     </script>
@@ -191,14 +241,42 @@
 
 <body>
     <header>
-        <h1>Welcome to PiBot</h1>
-    </header>
-    <main>
-        <div class="PiBot-images">
-            <img src="https://cdn-icons-png.freepik.com/512/6471/6471995.png" alt="">
-            <img src="https://raw.githubusercontent.com/Mrpi314tech/Mrpi314tech.github.io/main/customchat.jpeg" alt="">
-            <img src="https://raw.githubusercontent.com/Mrpi314tech/Mrpi314tech.github.io/main/python.png" alt="">
+        <div class="lightning">
+            <img src="https://raw.githubusercontent.com/Mrpi314tech/Home-web/main/lightning.png" alt="">
         </div>
+        <div class="spacer"></div>
+        <div class="PiBot-images">
+            <img src="https://raw.githubusercontent.com/Mrpi314tech/Home-web/main/logo.png" alt="">
+        </div>
+        <div class="spacer"></div>
+        <div class="lightning">
+            <img src="https://raw.githubusercontent.com/Mrpi314tech/Home-web/main/lightning.png" alt="">
+        </div>
+        <br>
+    </header>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <main>
+        <div id="responses">
+            <!-- Responses will appear here -->
+            Responses appear here
+            <hr>
+            <a style="color: rgba(52,182,355);" href="https://chat.mrpi314.com/info">More information</a> •
+        <a style="color: rgba(52,182,355);" href="https://chat.mrpi314.com/api">API</a>
+        </div>
+    </main>
+    <br>
+    <footer>
         <form id="api-key-form">
             <input type="password" name="api_key" placeholder="Optional: Enter your OpenAI API key here.">
             <input type="submit" value="Submit">
@@ -207,12 +285,7 @@
             <input type="text" name="user_input" placeholder="Talk to PiBot">
             <input type="submit" value="Send">
         </form>
-        <div id="responses">
-            <!-- Responses will appear here -->
-        </div>
-    </main>
-    <footer>
-        <a style="color: rgba(52,182,355);" href='http://chat.mrpi314.com/info'>More information</a>
+        <a style="color: rgba(52,182,355);" href="https://github.com/Mrpi314tech/Classy">GitHub</a>
     </footer>
 </body>
 
