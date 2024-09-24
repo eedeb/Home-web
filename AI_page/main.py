@@ -28,4 +28,4 @@ def get_response():
     return jsonify({'response_1': x, 'response_2': y})
 
 if __name__ == '__main__':
-    app.run(debug=True, host="172.235.133.234", port=80)
+    app.run(debug=True, host="", port=80)
